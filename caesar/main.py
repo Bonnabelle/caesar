@@ -26,7 +26,7 @@ top = """
 <body>
 """
 
-bottom = """
+bottom = ""
 </body>
 </html>
 """
@@ -48,15 +48,13 @@ class Home(webapp2.RequestHandler):
 
     def get(self):
         #This is all over the place
-        num = self.request.get("num")
-        caeser = """
+        #num = self.request.get("num")
+        caesar = """
         <form method="post" action="/encrypt">
             <label> Enter rotation amount.
                 <input type="number" name="rot" value="0">
             </label>
-        </form>
-        <form method="post" action="/encrypt">
-            <textarea rows="10" cols="50" name="message">
+            <textarea rows="10" cols="50" type="text" name="message">
                 Enter message.
             </textarea>
             <input type="submit">
@@ -64,10 +62,10 @@ class Home(webapp2.RequestHandler):
         """
 
 
-        #final = top + big_title + rotation + message + bottom
-        final = rot_custom(rot, message)
+        final = top + big_title + caesar + bottom
+        #final = rot_custom(rot,message)
 
-        self.response.write(final) #I really don't understand this command
+        self.response.write(final)
 
 
 class Encrypted(webapp2.RequestHandler):
@@ -75,6 +73,7 @@ class Encrypted(webapp2.RequestHandler):
     def post(self):
 
         rot = self.request.get("rot")
+        rot = int(rot)
         message = self.request.get("message")
         message = cgi.escape(message, quote=True)
 
