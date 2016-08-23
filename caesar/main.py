@@ -26,12 +26,12 @@ top = """
 <body>
 """
 
-bottom = ""
+bottom = """
 </body>
 </html>
 """
 
-big_title = """<h1>Caesar Encryption</h1>
+big_title = """<h1>Caesar Encryption</h1>"""
 
 def rot_custom(rot,message):
     final = ""
@@ -54,9 +54,11 @@ class Home(webapp2.RequestHandler):
             <label> Enter rotation amount.
                 <input type="number" name="rot" value="0">
             </label>
+            <br>
             <textarea rows="10" cols="50" type="text" name="message">
                 Enter message.
             </textarea>
+            <br>
             <input type="submit">
         </form>
         """
