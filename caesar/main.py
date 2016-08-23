@@ -30,6 +30,9 @@ bottom = """
 </body>
 </html>
 """
+
+big_title = """<h1>Caeser Encryption</h1>"""
+
 def rot_custom(rot,message):
     final = ""
     message = str(message)
@@ -46,26 +49,23 @@ class Home(webapp2.RequestHandler):
     def get(self):
         #This is all over the place
         num = self.request.get("num")
-        big_title = """<h1>Caeser Encryption</h1>"""
-        rotation = """
-        <form method="post">
+        caeser = """
+        <form method="post" action="/encrypt">
             <label> Enter rotation amount.
                 <input type="number" name="rot" value="0">
-                <input type="submit">
             </label>
         </form>
-        """
-
-        message = """
-        <form method="post">
+        <form method="post" action="/encrypt">
             <textarea rows="10" cols="50" name="message">
                 Enter message.
             </textarea>
+            <input type="submit">
         </form>
         """
 
 
-        final = top + big_title + rotation + message + bottom
+        #final = top + big_title + rotation + message + bottom
+        final = rot_custom(rot, message)
 
         self.response.write(final) #I really don't understand this command
 
@@ -74,16 +74,13 @@ class Encrypted(webapp2.RequestHandler):
 
     def post(self):
 
-        rot_amount = self.request.get("rot")
-        mess = self.request.get("message")
+        rot = self.request.get("rot")
+        message = self.request.get("message")
+        message = cgi.escape(message, quote=True)
 
-        new_body = """
-        <textarea>
-            rot_custom(rot_amount,cgi.escape(mess))
-        </textarea>
-        """
+        encryption = rot_custom(rot,message)
 
-        encrypted_final = top + big_title + new_body + bottom
+        encrypted_final = top + big_title + encryption + bottom
 
         self.response.write(encrypted_final)
 
@@ -97,5 +94,6 @@ class Encrypted(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/', Home)
+    ('/', Home),
+    ('/encrypt',Encrypted)
 ], debug=True)
