@@ -31,7 +31,7 @@ bottom = ""
 </html>
 """
 
-big_title = """<h1>Caeser Encryption</h1>"""
+big_title = """<h1>Caesar Encryption</h1>"""
 
 def rot_custom(rot,message):
     final = ""
