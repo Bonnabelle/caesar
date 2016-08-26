@@ -38,41 +38,37 @@ def rot_custom(rot,message):
     message = str(message)
     for char in message:
         if char.isalpha() == False:
-            final = final + char
-        letter = ord(char) + int(rot) % 26
+            final += char
+        letter = (ord(char) + int(rot)) % 26
         letter = chr(letter)
-        final= final + letter
+        final += letter
     return final
 
 class Home(webapp2.RequestHandler):
 
-    def get(self):
+    def post(self):
         #This is all over the place
         #num = self.request.get("num")
+
+        entered = ""
+
         caesar = """
-        <form method="post" action="/encrypt">
+        <form method="post" action="/">
             <label> Enter rotation amount.
                 <input type="number" name="rot" value="0">
             </label>
             <br>
             <textarea rows="10" cols="50" type="text" name="message">
-                Enter message.
+            %(entered)s
             </textarea>
             <br>
             <input type="submit">
         </form>
         """
-
-
         final = top + big_title + caesar + bottom
         #final = rot_custom(rot,message)
 
         self.response.write(final)
-
-
-class Encrypted(webapp2.RequestHandler):
-
-    def post(self):
 
         rot = self.request.get("rot")
         rot = int(rot)
@@ -81,20 +77,13 @@ class Encrypted(webapp2.RequestHandler):
 
         encryption = rot_custom(rot,message)
 
-        encrypted_final = top + big_title + encryption + bottom
+        entered += encryption
+
+        encrypted_final = top + str(encryption) + bottom
 
         self.response.write(encrypted_final)
 
 
-    #Make an input field for the rot value in rot_custom
-        #Make an input field for the message value, probably some text box
-        #Display the encrypted and escaped text at the bottom of the page
-        #HELP
-
-
-
-
 app = webapp2.WSGIApplication([
-    ('/', Home),
-    ('/encrypt',Encrypted)
+    ('/', Home)
 ], debug=True)
